@@ -11,9 +11,9 @@ Feature: This feature will be used to automate PizzaHut Website
     And I click on checkout button
     Then I should land on checkout page
     And I enter personal details
-    | Name | Arun |
-    | Mobile | 9989898989 |
-    | Email | arun@yopmail.com |
+    | name | Arun |
+    | phone | 9989898989 |
+    | email | arun@yopmail.com |
     And I enter address details
     | 12 main street |
     | some landmark |

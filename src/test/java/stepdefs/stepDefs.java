@@ -1,5 +1,8 @@
 package stepdefs;
 
+import java.util.List;
+import java.util.Map;
+
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -66,57 +69,45 @@ public class stepDefs {
 	}
 
 	@Then("I click on checkout button")
-	public void i_click_on_checkout_button() {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	public void i_click_on_checkout_button() throws InterruptedException {
+		Thread.sleep(2000);
+		WebElement checkoutButton = driver.findElement(By.xpath("//div[contains(@class,'basket-checkout')]//span[contains(text(),'Checkout')]"));
+		checkoutButton.click();
 	}
 
 	@Then("I should land on checkout page")
-	public void i_should_land_on_checkout_page() {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	public void i_should_land_on_checkout_page() throws InterruptedException {
+		Thread.sleep(4000);
+		System.out.println(driver.getCurrentUrl());
+		Assert.assertTrue(driver.getCurrentUrl().endsWith("/order/checkout/"));
 	}
 
 	@Then("I enter personal details")
-	public void i_enter_personal_details(io.cucumber.datatable.DataTable dataTable) {
-		// Write code here that turns the phrase above into concrete actions
-		// For automatic transformation, change DataTable to one of
-		// E, List<E>, List<List<E>>, List<Map<K,V>>, Map<K,V> or
-		// Map<K, List<V>>. E,K,V must be a String, Integer, Float,
-		// Double, Byte, Short, Long, BigInteger or BigDecimal.
-		//
-		// For other transformations you can register a DataTableType.
-		throw new io.cucumber.java.PendingException();
+	public void i_enter_personal_details(Map<String,String> personalDetails) {
+		for(String detail:personalDetails.keySet()) {
+			WebElement input = driver.findElement(By.xpath("//input[@name='" + detail + "']"));
+			input.sendKeys(personalDetails.get(detail));
+		}
 	}
 
 	@Then("I enter address details")
-	public void i_enter_address_details(io.cucumber.datatable.DataTable dataTable) {
-		// Write code here that turns the phrase above into concrete actions
-		// For automatic transformation, change DataTable to one of
-		// E, List<E>, List<List<E>>, List<Map<K,V>>, Map<K,V> or
-		// Map<K, List<V>>. E,K,V must be a String, Integer, Float,
-		// Double, Byte, Short, Long, BigInteger or BigDecimal.
-		//
-		// For other transformations you can register a DataTableType.
-		throw new io.cucumber.java.PendingException();
+	public void i_enter_address_details(List<String> address) {
+		driver.findElement(By.xpath("//input[@name='deliveryAddress.interior']")).sendKeys(address.get(0));
+		driver.findElement(By.xpath("//input[@name='deliveryAddress.notes']")).sendKeys(address.get(1));
 	}
 
 	@Then("I should see three payment options")
-	public void i_should_see_three_payment_options(io.cucumber.datatable.DataTable dataTable) {
-		// Write code here that turns the phrase above into concrete actions
-		// For automatic transformation, change DataTable to one of
-		// E, List<E>, List<List<E>>, List<Map<K,V>>, Map<K,V> or
-		// Map<K, List<V>>. E,K,V must be a String, Integer, Float,
-		// Double, Byte, Short, Long, BigInteger or BigDecimal.
-		//
-		// For other transformations you can register a DataTableType.
-		throw new io.cucumber.java.PendingException();
+	public void i_should_see_three_payment_options(List<String> expectedPaymentOptions) {
+		List<WebElement> paymentOptions = driver.findElements(By.xpath("//div[contains(@class,'form-section')]//div[contains(@class,'mt-20')]//label//span//span"));
+		for(int i=0;i<3;i++) {
+			Assert.assertEquals(paymentOptions.get(i).getText(), expectedPaymentOptions.get(i));
+		}
 	}
 
 	@Then("I select the payment option as {string}")
-	public void i_select_the_payment_option_as(String string) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	public void i_select_the_payment_option_as(String option) {
+		WebElement optionField = driver.findElement(By.xpath("//div[contains(@class,'form-section')]//div[contains(@class,'mt-20')]//label//span//span[contains(text(),'" + option + "')]"));
+		optionField.click();
 	}
 
 }
